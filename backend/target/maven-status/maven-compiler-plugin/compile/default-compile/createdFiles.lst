@@ -1,0 +1,9 @@
+com\erp\dto\LoginRequest.class
+com\erp\dto\AuthResponse.class
+com\erp\model\UserRole.class
+com\erp\dto\SignupRequest.class
+com\erp\repository\UserRepository.class
+com\erp\service\AuthService.class
+com\erp\ErpApplication.class
+com\erp\controller\AuthController.class
+com\erp\model\User.class

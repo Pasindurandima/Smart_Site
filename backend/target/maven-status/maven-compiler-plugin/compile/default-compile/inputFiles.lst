@@ -1,0 +1,9 @@
+D:\Games\construction-erp-saas-mvp\backend\src\main\java\com\erp\controller\AuthController.java
+D:\Games\construction-erp-saas-mvp\backend\src\main\java\com\erp\dto\AuthResponse.java
+D:\Games\construction-erp-saas-mvp\backend\src\main\java\com\erp\dto\LoginRequest.java
+D:\Games\construction-erp-saas-mvp\backend\src\main\java\com\erp\dto\SignupRequest.java
+D:\Games\construction-erp-saas-mvp\backend\src\main\java\com\erp\ErpApplication.java
+D:\Games\construction-erp-saas-mvp\backend\src\main\java\com\erp\model\User.java
+D:\Games\construction-erp-saas-mvp\backend\src\main\java\com\erp\model\UserRole.java
+D:\Games\construction-erp-saas-mvp\backend\src\main\java\com\erp\repository\UserRepository.java
+D:\Games\construction-erp-saas-mvp\backend\src\main\java\com\erp\service\AuthService.java
