@@ -1,12 +1,5 @@
 import React from 'react';
-
-const stages = [
-    { title: 'Foundation', status: 'completed', dates: '12 Jan 2026 - 21 Feb 2026' },
-    { title: 'Structure', status: 'active', dates: '22 Feb 2026 - 18 Jun 2026' },
-    { title: 'Plumbing', status: 'pending', dates: '19 Jun 2026 - 20 Jul 2026' },
-    { title: 'Electrical', status: 'pending', dates: '21 Jul 2026 - 25 Aug 2026' },
-    { title: 'Finishing', status: 'pending', dates: '26 Aug 2026 - 30 Nov 2026' }
-];
+import { useClientWorkspace } from '../../hooks/useClientWorkspace';
 
 const statusStyles = {
     completed: 'badge-green',
@@ -15,19 +8,33 @@ const statusStyles = {
     delayed: 'badge-rose'
 };
 
-export default function ProjectTimeline() {
+export default function ProjectTimeline({ user }) {
+    const { selectedProject, timelineStages, loading, error } = useClientWorkspace(user);
+
+    if (loading) {
+        return <div className="portal-card p-6">Loading timeline...</div>;
+    }
+
+    if (error) {
+        return <div className="portal-card p-6 text-rose-600">{error}</div>;
+    }
+
+    if (!selectedProject) {
+        return <div className="portal-card p-6">No project assigned to this client yet.</div>;
+    }
+
     return (
         <div className="portal-card p-6">
             <div className="mb-6 flex items-start justify-between gap-4">
                 <div>
                     <h2 className="portal-section-title">Construction Timeline</h2>
-                    <p className="portal-muted">Track each construction phase and milestone in a vertical SaaS timeline.</p>
+                    <p className="portal-muted">Track each construction phase and milestone for {selectedProject.name}.</p>
                 </div>
-                <span className="badge badge-blue">Project ID #GF-2026-02</span>
+                <span className="badge badge-blue">Project ID #{selectedProject.id}</span>
             </div>
 
             <div className="space-y-5">
-                {stages.map((stage, index) => (
+                {timelineStages.map((stage, index) => (
                     <div key={stage.title} className="relative pl-8">
                         <div className="absolute left-2 top-1 h-full w-px bg-slate-200"></div>
                         <div className="absolute left-0 top-2 h-4 w-4 rounded-full border-4 border-white bg-sky-500 shadow"></div>

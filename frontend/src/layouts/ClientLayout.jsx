@@ -3,6 +3,7 @@ import React from 'react';
 export default function ClientLayout({ title, user, onLogout, active, onSelect, children }) {
     const menuItems = [
         { key: 'dashboard', label: 'Dashboard' },
+        { key: 'workflows', label: 'Workflows' },
         { key: 'my-project', label: 'My Project' },
         { key: 'timeline', label: 'Timeline' },
         { key: 'gallery', label: 'Progress Gallery' },

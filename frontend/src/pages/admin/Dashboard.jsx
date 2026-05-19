@@ -1,16 +1,28 @@
 import React from 'react';
 
-export default function Dashboard() {
+export default function Dashboard({ onNavigate }) {
     const kpis = [
-        { label: 'Active Projects', value: '26', tone: 'badge-blue' },
-        { label: 'Total Workers', value: '312', tone: 'badge-green' },
-        { label: 'Monthly Expenses', value: 'Rs. 8.4M', tone: 'badge-amber' },
-        { label: 'Stock Alerts', value: '7 Low', tone: 'badge-rose' },
-        { label: 'Profit Summary', value: 'Rs. 2.1M', tone: 'badge-green' }
+        { label: 'Active Projects', value: '24', tone: 'badge-blue' },
+        { label: 'Completed Projects', value: '86', tone: 'badge-green' },
+        { label: 'Total Workers', value: '312', tone: 'badge-amber' },
+        { label: 'Monthly Expenses', value: 'Rs. 8.4M', tone: 'badge-rose' },
+        { label: 'Net Profit', value: 'Rs. 2.9M', tone: 'badge-green' }
+    ];
+
+    const alerts = [
+        'Low stock: Rebar 12mm at Site C',
+        'Delayed: Greenfield Block B by 4 days',
+        'Pending invoices: 9 client payments'
     ];
 
     return (
         <div className="space-y-6">
+            <section className="rounded-3xl bg-slate-950 px-6 py-5 text-white shadow-soft">
+                <p className="text-xs uppercase tracking-[0.25em] text-sky-300">Company Overview</p>
+                <h2 className="mt-1 text-2xl font-semibold">Construction Operations Control Center</h2>
+                <p className="mt-2 max-w-2xl text-sm text-slate-300">Track company-wide projects, workforce, inventory, finance, and business health in one dashboard.</p>
+            </section>
+
             <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
                 {kpis.map((item) => (
                     <article key={item.label} className="portal-card p-5">
@@ -27,35 +39,34 @@ export default function Dashboard() {
                 <article className="portal-card p-6">
                     <div className="flex items-center justify-between gap-3">
                         <div>
-                            <h2 className="portal-section-title">Profit Summary Chart</h2>
-                            <p className="portal-muted">Income vs expense trend across the current quarter</p>
+                            <h2 className="portal-section-title">Progress Overview</h2>
+                            <p className="portal-muted">Project completion trend across active sites</p>
                         </div>
-                        <span className="badge badge-green">Healthy Margin</span>
+                        <span className="badge badge-green">Healthy</span>
                     </div>
-                    <div className="mt-6 h-64 rounded-3xl bg-gradient-to-br from-slate-950 to-sky-900 p-5 text-white">
-                        <div className="grid h-full grid-cols-6 items-end gap-3">
-                            {[34, 42, 39, 58, 63, 74].map((value, index) => (
-                                <div key={index} className="flex h-full flex-col justify-end gap-2">
-                                    <div className="rounded-t-2xl bg-white/90" style={{ height: `${value}%` }}></div>
-                                    <span className="text-center text-xs text-slate-300">Q{index + 1}</span>
-                                </div>
-                            ))}
-                        </div>
+                    <div className="mt-6 grid h-64 grid-cols-6 items-end gap-3">
+                        {[32, 40, 47, 54, 63, 72].map((value, index) => (
+                            <div key={index} className="flex h-full flex-col justify-end gap-2">
+                                <div className="rounded-t-2xl bg-gradient-to-t from-sky-600 to-emerald-400" style={{ height: `${value}%` }}></div>
+                                <span className="text-center text-xs text-slate-500">P{index + 1}</span>
+                            </div>
+                        ))}
                     </div>
                 </article>
 
                 <article className="portal-card p-6">
-                    <h2 className="portal-section-title">Material Stock Alerts</h2>
+                    <h2 className="portal-section-title">Alerts Panel</h2>
                     <div className="mt-4 space-y-3">
-                        {[
-                            'Cement OPC: 4 days remaining',
-                            'Rebar 12mm: reorder required',
-                            'Paint white matte: low stock on Site B'
-                        ].map((alert) => (
-                            <div key={alert} className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800">
-                                {alert}
+                        {alerts.map((item, index) => (
+                            <div key={index} className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+                                {item}
                             </div>
                         ))}
+                    </div>
+                    <div className="mt-6 flex flex-wrap gap-3">
+                        <button onClick={() => onNavigate?.('projects')} className="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white">View Projects</button>
+                        <button onClick={() => onNavigate?.('inventory')} className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700">Check Inventory</button>
+                        <button onClick={() => onNavigate?.('workflows')} className="rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-sm font-semibold text-sky-700">Open Workflows</button>
                     </div>
                 </article>
             </section>

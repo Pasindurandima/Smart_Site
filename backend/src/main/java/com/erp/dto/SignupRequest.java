@@ -6,6 +6,7 @@ public class SignupRequest {
     private String password;
     private String phone;
     private String role;
+    private Long companyId;
 
     public String getName() {
         return name;
@@ -46,4 +47,7 @@ public class SignupRequest {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public Long getCompanyId() { return companyId; }
+    public void setCompanyId(Long companyId) { this.companyId = companyId; }
 }

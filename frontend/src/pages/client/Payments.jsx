@@ -1,4 +1,6 @@
 import React from 'react';
+import { createWorkflowEvent } from '../../api/workflowApi';
+import { createOperationalRecord } from '../../api/operationsApi';
 
 const payments = [
     { id: 'TXN-4432', date: '12 May 2026', method: 'Online', status: 'Paid' },
@@ -6,7 +8,7 @@ const payments = [
     { id: 'TXN-4508', date: '29 May 2026', method: 'Cash', status: 'Paid' }
 ];
 
-export default function Payments() {
+export default function Payments({ user }) {
     return (
         <div className="space-y-6">
             <section className="grid gap-4 md:grid-cols-3">
@@ -46,7 +48,9 @@ export default function Payments() {
                                     <td className="px-6 py-4 text-slate-600">{payment.date}</td>
                                     <td className="px-6 py-4 text-slate-600">{payment.method}</td>
                                     <td className="px-6 py-4">
-                                        <span className={`badge ${payment.status === 'Paid' ? 'badge-green' : 'badge-amber'}`}>{payment.status}</span>
+                                        <button onClick={() => createOperationalRecord({ recordType: 'PAYMENT', projectId: null, title: payment.id, amount: null, quantity: 1, status: payment.status.toUpperCase(), notes: `${payment.method} payment on ${payment.date}`, actorRole: user?.role || 'CLIENT' }).then(() => createWorkflowEvent({ projectId: null, workType: 'PAYMENT_TRACKING', title: `Payment marked ${payment.status.toLowerCase()}`, description: `Transaction ${payment.id} marked as ${payment.status}.`, actorRole: user?.role || 'CLIENT', status: payment.status.toUpperCase() }).catch(() => {}))} className={`badge ${payment.status === 'Paid' ? 'badge-green' : 'badge-amber'}`}>
+                                                {payment.status}
+                                            </button>
                                     </td>
                                 </tr>
                             ))}

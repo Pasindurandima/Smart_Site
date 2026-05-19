@@ -6,6 +6,8 @@ public class AuthResponse {
     private String email;
     private String phone;
     private String role;
+    private Long companyId;
+    private String token;
     private String message;
 
     public Long getId() {
@@ -47,6 +49,12 @@ public class AuthResponse {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public Long getCompanyId() { return companyId; }
+    public void setCompanyId(Long companyId) { this.companyId = companyId; }
+
+    public String getToken() { return token; }
+    public void setToken(String token) { this.token = token; }
 
     public String getMessage() {
         return message;

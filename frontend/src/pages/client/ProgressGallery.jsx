@@ -1,25 +1,54 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useClientWorkspace } from '../../hooks/useClientWorkspace';
+import { listSiteProgress } from '../../api/siteProgressApi';
 
-const photos = [
-    { title: 'Before - Site Prep', site: 'Site A', image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=900&q=80' },
-    { title: 'After - Foundation', site: 'Site A', image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=900&q=80' },
-    { title: 'Daily Update - Block B', site: 'Site B', image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=80' },
-    { title: 'Before - Parking Deck', site: 'Site C', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=900&q=80' },
-    { title: 'After - Concrete Pour', site: 'Site C', image: 'https://images.unsplash.com/photo-1508450859948-4e6f5e9d7f36?auto=format&fit=crop&w=900&q=80' },
-    { title: 'Daily Update - Electrical', site: 'Site B', image: 'https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=900&q=80' }
-];
+export default function ProgressGallery({ user }) {
+    const { selectedProject, loading, error } = useClientWorkspace(user);
+    const [photos, setPhotos] = useState([]);
+    const [galleryLoading, setGalleryLoading] = useState(true);
+    const [galleryError, setGalleryError] = useState('');
 
-export default function ProgressGallery() {
+    useEffect(() => {
+        let mounted = true;
+        async function loadGallery() {
+            setGalleryLoading(true);
+            setGalleryError('');
+            try {
+                const data = await listSiteProgress();
+                if (!mounted) return;
+                setPhotos(Array.isArray(data) ? data : []);
+            } catch (loadError) {
+                if (mounted) {
+                    setGalleryError(loadError.message || 'Unable to load progress gallery');
+                }
+            } finally {
+                if (mounted) {
+                    setGalleryLoading(false);
+                }
+            }
+        }
+        loadGallery();
+        return () => {
+            mounted = false;
+        };
+    }, []);
+
+    if (loading) {
+        return <div className="portal-card p-6">Loading gallery...</div>;
+    }
+
+    const workspaceError = error;
+
     return (
         <div className="space-y-6">
             <section className="portal-card p-6">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
                         <h2 className="portal-section-title">Progress Gallery</h2>
-                        <p className="portal-muted">Visual proof of progress with before/after and daily site photos.</p>
+                        <p className="portal-muted">Visual proof uploaded by site engineers. {selectedProject?.name ? `Project: ${selectedProject.name}` : ''}</p>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                        {['All', 'Site A', 'Site B', 'Date Filter'].map((filter, index) => (
+                        {['All', selectedProject?.address || 'Project', 'Date Filter'].map((filter, index) => (
                             <button key={filter} className={`badge ${index === 0 ? 'badge-blue' : 'badge-green'}`}>
                                 {filter}
                             </button>
@@ -28,19 +57,25 @@ export default function ProgressGallery() {
                 </div>
             </section>
 
+            {workspaceError ? <section className="portal-card p-4 text-amber-700">{workspaceError}</section> : null}
+            {galleryError ? <section className="portal-card p-4 text-rose-600">{galleryError}</section> : null}
+
             <section className="columns-1 gap-4 space-y-4 md:columns-2 xl:columns-3 xl:space-y-4">
-                {photos.map((photo, index) => (
-                    <article key={index} className="break-inside-avoid overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-                        <img src={photo.image} alt={photo.title} className="h-64 w-full object-cover" />
+                {galleryLoading ? <div className="portal-card p-4 text-sm text-slate-500">Loading progress images...</div> : null}
+                {photos.map((photo) => (
+                    <article key={photo.id} className="break-inside-avoid overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                        <img src={photo.imageData} alt={photo.title} className="h-64 w-full object-cover" />
                         <div className="p-4">
                             <div className="flex items-center justify-between gap-3">
                                 <h3 className="font-semibold text-slate-900">{photo.title}</h3>
-                                <span className="badge badge-blue">{photo.site}</span>
+                                <span className="badge badge-blue">{photo.createdAt ? new Date(photo.createdAt).toLocaleDateString() : 'Update'}</span>
                             </div>
-                            <p className="portal-muted mt-2">Hover-ready masonry style card for progress verification.</p>
+                            <p className="portal-muted mt-2">{photo.shortDescription}</p>
+                            {photo.comments ? <p className="mt-2 text-sm text-slate-600">{photo.comments}</p> : null}
                         </div>
                     </article>
                 ))}
+                {!galleryLoading && !galleryError && !photos.length ? <div className="portal-card p-4 text-sm text-slate-500">No progress uploads available yet.</div> : null}
             </section>
         </div>
     );

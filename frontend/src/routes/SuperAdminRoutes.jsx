@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import SuperAdminLayout from '../layouts/SuperAdminLayout';
 import Dashboard from '../pages/superadmin/Dashboard';
+import WorkflowCenter from '../pages/workflows/WorkflowCenter';
 import Companies from '../pages/superadmin/Companies';
 import Subscriptions from '../pages/superadmin/Subscriptions';
 import Users from '../pages/superadmin/Users';
@@ -10,6 +11,7 @@ import Settings from '../pages/superadmin/Settings';
 
 const pageMap = {
     dashboard: Dashboard,
+    workflows: WorkflowCenter,
     companies: Companies,
     subscriptions: Subscriptions,
     users: Users,
@@ -24,7 +26,7 @@ export default function SuperAdminRoutes({ user, onLogout }) {
 
     return (
         <SuperAdminLayout title="Super Admin Workspace" user={user} onLogout={onLogout} active={active} onSelect={setActive}>
-            <ActivePage />
+            <ActivePage user={user} onNavigate={setActive} />
         </SuperAdminLayout>
     );
 }

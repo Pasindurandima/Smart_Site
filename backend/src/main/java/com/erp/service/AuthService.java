@@ -17,10 +17,12 @@ import com.erp.repository.UserRepository;
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final com.erp.security.JwtUtil jwtUtil;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public AuthService(UserRepository userRepository) {
+    public AuthService(UserRepository userRepository, com.erp.security.JwtUtil jwtUtil) {
         this.userRepository = userRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     public AuthResponse signup(SignupRequest request) {
@@ -36,6 +38,7 @@ public class AuthService {
         user.setPhone(request.getPhone().trim());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(parseRole(request.getRole()));
+        user.setCompanyId(request.getCompanyId());
 
         User saved = userRepository.save(user);
 
@@ -94,6 +97,14 @@ public class AuthService {
         response.setEmail(user.getEmail());
         response.setPhone(user.getPhone());
         response.setRole(user.getRole().name());
+        response.setCompanyId(user.getCompanyId());
+        // generate JWT token
+        try {
+            String token = jwtUtil.createToken(user.getId(), user.getRole().name(), user.getCompanyId());
+            response.setToken(token);
+        } catch (Exception ex) {
+            // ignore token generation errors for now
+        }
         response.setMessage(message);
         return response;
     }

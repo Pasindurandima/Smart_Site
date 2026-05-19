@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import ManagerLayout from '../layouts/ManagerLayout';
 import Dashboard from '../pages/manager/Dashboard';
+import WorkflowCenter from '../pages/workflows/WorkflowCenter';
 import MyProjects from '../pages/manager/MyProjects';
 import ProjectBoard from '../pages/manager/ProjectBoard';
 import Tasks from '../pages/manager/Tasks';
@@ -11,6 +12,7 @@ import Reports from '../pages/manager/Reports';
 
 const pageMap = {
     dashboard: Dashboard,
+    workflows: WorkflowCenter,
     'my-projects': MyProjects,
     'project-board': ProjectBoard,
     tasks: Tasks,
@@ -26,7 +28,7 @@ export default function ManagerRoutes({ user, onLogout }) {
 
     return (
         <ManagerLayout title="Project Manager Workspace" user={user} onLogout={onLogout} active={active} onSelect={setActive}>
-            <ActivePage />
+            <ActivePage user={user} onNavigate={setActive} />
         </ManagerLayout>
     );
 }

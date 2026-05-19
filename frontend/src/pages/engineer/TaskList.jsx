@@ -1,14 +1,34 @@
 import React from 'react';
 
-export default function TaskList() {
-    const tasks = ['Mark completion of slab casting', 'Check shuttering alignment', 'Upload site progress photos'];
+export default function TaskList({ onNavigate }) {
+    const tasks = [
+        { id: 'T-201', title: 'Pour footing', priority: 'High', status: 'To Do', deadline: '2026-05-20' },
+        { id: 'T-202', title: 'Set formwork', priority: 'Medium', status: 'In Progress', deadline: '2026-05-22' }
+    ];
 
     return (
-        <div className="portal-card overflow-hidden">
-            <div className="border-b border-slate-200 px-6 py-4"><h2 className="portal-section-title">Task List</h2></div>
-            <div className="divide-y divide-slate-100 bg-white">
-                {tasks.map((task) => (<div key={task} className="px-6 py-4 text-sm text-slate-700">{task}</div>))}
-            </div>
+        <div className="space-y-4">
+            <section className="portal-card p-3">
+                <div className="flex items-center justify-between">
+                    <h2 className="portal-section-title">Tasks</h2>
+                    <div className="text-sm text-slate-500">Filters</div>
+                </div>
+
+                <div className="mt-3 space-y-2">
+                    {tasks.map((t) => (
+                        <div key={t.id} className="flex items-center justify-between rounded-lg bg-white p-3 shadow-sm">
+                            <div>
+                                <div className="font-medium text-slate-900">{t.title}</div>
+                                <div className="text-xs text-slate-500">{t.priority} • Due {t.deadline}</div>
+                            </div>
+                            <div className="flex flex-col items-end gap-2">
+                                <div className={`badge ${t.status === 'Done' ? 'badge-green' : t.status === 'In Progress' ? 'badge-blue' : 'badge-amber'}`}>{t.status}</div>
+                                <button onClick={() => onNavigate?.('task-details')} className="text-xs text-slate-600">Open</button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </section>
         </div>
     );
 }

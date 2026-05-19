@@ -3,6 +3,7 @@ export const roleDashboardConfig = {
         title: 'Super Admin Dashboard',
         menu: [
             { key: 'platform_overview', shortLabel: 'PO', label: 'Platform Overview' },
+            { key: 'workflows', shortLabel: 'WF', label: 'Workflows' },
             { key: 'companies', shortLabel: 'CO', label: 'Companies' },
             { key: 'subscriptions', shortLabel: 'SU', label: 'Subscriptions' },
             { key: 'users_management', shortLabel: 'UM', label: 'Users Management' },
@@ -15,6 +16,7 @@ export const roleDashboardConfig = {
         title: 'Company Admin Dashboard',
         menu: [
             { key: 'company_dashboard', shortLabel: 'CD', label: 'Company Dashboard' },
+            { key: 'workflows', shortLabel: 'WF', label: 'Workflows' },
             { key: 'projects', shortLabel: 'PR', label: 'Projects' },
             { key: 'workers', shortLabel: 'WO', label: 'Workers' },
             { key: 'inventory', shortLabel: 'IN', label: 'Inventory' },
@@ -29,6 +31,7 @@ export const roleDashboardConfig = {
         title: 'Project Manager Dashboard',
         menu: [
             { key: 'overview', shortLabel: 'OV', label: 'Overview' },
+            { key: 'workflows', shortLabel: 'WF', label: 'Workflows' },
             { key: 'my_projects', shortLabel: 'MP', label: 'My Projects' },
             { key: 'tasks', shortLabel: 'TA', label: 'Tasks' },
             { key: 'milestones', shortLabel: 'MI', label: 'Milestones' },
@@ -41,6 +44,7 @@ export const roleDashboardConfig = {
         title: 'Site Engineer Dashboard',
         menu: [
             { key: 'dashboard', shortLabel: 'DA', label: 'Dashboard' },
+            { key: 'workflows', shortLabel: 'WF', label: 'Workflows' },
             { key: 'assigned_site', shortLabel: 'AS', label: 'Assigned Site' },
             { key: 'tasks', shortLabel: 'TA', label: 'Tasks' },
             { key: 'upload_progress', shortLabel: 'UP', label: 'Upload Progress' },
@@ -52,6 +56,7 @@ export const roleDashboardConfig = {
         title: 'Accountant Dashboard',
         menu: [
             { key: 'finance_overview', shortLabel: 'FO', label: 'Finance Overview' },
+            { key: 'workflows', shortLabel: 'WF', label: 'Workflows' },
             { key: 'expenses', shortLabel: 'EX', label: 'Expenses' },
             { key: 'invoices', shortLabel: 'IV', label: 'Invoices' },
             { key: 'payments', shortLabel: 'PA', label: 'Payments' },
@@ -63,6 +68,7 @@ export const roleDashboardConfig = {
         title: 'Client Dashboard',
         menu: [
             { key: 'project_overview', shortLabel: 'PO', label: 'Project Overview' },
+            { key: 'workflows', shortLabel: 'WF', label: 'Workflows' },
             { key: 'my_project', shortLabel: 'MP', label: 'My Project' },
             { key: 'progress_gallery', shortLabel: 'PG', label: 'Progress Gallery' },
             { key: 'invoices', shortLabel: 'IV', label: 'Invoices' },

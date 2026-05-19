@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import ClientLayout from '../layouts/ClientLayout';
 import Dashboard from '../pages/client/Dashboard';
+import WorkflowCenter from '../pages/workflows/WorkflowCenter';
 import MyProject from '../pages/client/MyProject';
 import ProjectTimeline from '../pages/client/ProjectTimeline';
 import ProgressGallery from '../pages/client/ProgressGallery';
@@ -11,6 +12,7 @@ import Profile from '../pages/client/Profile';
 
 const pageMap = {
     dashboard: Dashboard,
+    workflows: WorkflowCenter,
     'my-project': MyProject,
     timeline: ProjectTimeline,
     gallery: ProgressGallery,
@@ -26,7 +28,7 @@ export default function ClientRoutes({ user, onLogout }) {
 
     return (
         <ClientLayout title="Client Workspace" user={user} onLogout={onLogout} active={active} onSelect={setActive}>
-            <ActivePage />
+            <ActivePage user={user} onNavigate={setActive} />
         </ClientLayout>
     );
 }

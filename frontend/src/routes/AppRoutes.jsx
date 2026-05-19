@@ -7,15 +7,11 @@ import EngineerRoutes from './EngineerRoutes';
 import AccountantRoutes from './AccountantRoutes';
 import ClientRoutes from './ClientRoutes';
 import Unauthorized from '../pages/common/Unauthorized';
+import MarketingSite from '../pages/public/MarketingSite';
 
 export default function AppRoutes({ user, onLoginSuccess, onLogout }) {
     if (!user) {
-        return (
-            <div style={{ padding: 16 }}>
-                <h1 style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Construction ERP SaaS</h1>
-                <Login onLoginSuccess={onLoginSuccess} />
-            </div>
-        );
+        return <MarketingSite onLoginClick={() => document.getElementById('login-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' })} onLoginSuccess={onLoginSuccess} />;
     }
 
     const role = user?.role;

@@ -2,10 +2,20 @@
 import React, { useState } from 'react';
 import AppRoutes from './routes/AppRoutes';
 
+import './styles/marketing.css';
+
 export default function App() {
     const [user, setUser] = useState(() => {
         const raw = localStorage.getItem('erpUser');
-        return raw ? JSON.parse(raw) : null;
+        if (!raw) return null;
+
+        try {
+            return JSON.parse(raw);
+        } catch (error) {
+            console.warn('Invalid erpUser data in localStorage, clearing it.', error);
+            localStorage.removeItem('erpUser');
+            return null;
+        }
     });
 
     const handleLoginSuccess = (loggedInUser) => {
